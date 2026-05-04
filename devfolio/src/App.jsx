@@ -1,15 +1,13 @@
-import React from 'react'
+import { Button } from "@/components/ui/button"
 
-const App = () => {
+function App() {
   return (
-    <div class="text-3xl font-bold underline">
-      Hello world
+    <div className="flex min-h-svh flex-col items-center justify-center">
+       Hello world
+      <Button className="bg-blue-800">Click me</Button>
     </div>
   )
 }
 
 export default App
-
-
-
 
