@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
 import { FaHamburger } from "react-icons/fa";
 
 const Navbar = () => {

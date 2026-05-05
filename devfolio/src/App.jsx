@@ -1,5 +1,4 @@
-import { Button } from "@/components/ui/button";
-import { FaHamburger } from "react-icons/fa";
+import Navbar from "./ui_components/Navbar";
 
 
 function App() {
