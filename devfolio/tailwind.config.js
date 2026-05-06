@@ -51,7 +51,7 @@ export default {
         "on-tertiary-fixed-variant": "#474646",
         "surface-container-highest": "#343535",
         "on-tertiary-container": "#464545",
-        "background": "#121414",
+        // "background": "#121414",
         "secondary": "#c8c6c5",
         "on-secondary-fixed": "#1c1b1b"
       },
