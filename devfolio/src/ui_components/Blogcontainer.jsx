@@ -3,7 +3,7 @@ import BlogCard from "./BlogCard"
 const BlogContainer = () => {
   return (
     <section className="padding-x py-6  max-container">
-    <h2 className="font-semibold text-xl mb-6 dark:text-white text-center">
+    <h2 className="font-semibold text-xl mb-6 dark:text-[#141624] text-center">
       🍔Latest Posts
     </h2>
 
