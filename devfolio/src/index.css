@@ -136,3 +136,18 @@ html {
     @apply font-sans;
     }
 }
+.active{
+    @apply bg-[#4858fb] text-white px-3 py-2 rounded-md;
+}
+
+.padding{
+    @apply px-8 py-12 sm:px-16 sm:py-24;
+}
+
+.padding-x{
+    @apply px-8  sm:px-32;
+}
+
+.padding-dx{
+    @apply px-8 py-2 sm:px-44;
+}

@@ -1,12 +1,11 @@
 import { Switch } from "@/components/ui/switch";
 import { FaHamburger } from "react-icons/fa";
 import ResponsiveNavBar from "./ResponsiveNavbar";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useState } from "react";
 
-const NavBar = () => {
-
-    const [showNavBar, setShowNavBar] = useState(false)
+const NavBar = ({ darkMode, handleDarkMode }) => {
+  const [showNavBar, setShowNavBar] = useState(localStorage.getItem("dark") === "true");
 
   return (
     <>
@@ -16,7 +15,7 @@ const NavBar = () => {
         </Link>
         <ul className="flex items-center  justify-end gap-9 text-[#3B3C4A] lg:flex-1 max-md:hidden dark:text-[#141624]">
           <li>
-          <Link to="/profile">Hi, Clinton</Link>
+          <NavLink to="/profile" className={({isActive}) => isActive ? "active" : " "} >Hi, Clinton</NavLink>
           </li>
 
           <li>Logout</li>
@@ -25,7 +24,7 @@ const NavBar = () => {
           <li className="font-semibold">Create post</li>
         </ul>
 
-        <Switch />
+        <Switch onCheckedChange={handleDarkMode} checked={darkMode} />
         <FaHamburger className="text-2xl cursor-pointer hidden max-md:block dark:text-[#141624]" onClick={() => setShowNavBar(curr => !curr)} />
       </nav>
 

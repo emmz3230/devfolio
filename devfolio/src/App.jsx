@@ -10,20 +10,14 @@ import ProfilePage from "./Pages/ProfilePage";
 
 function App() {
   return (
-    
-    <BrowserRouter >
-    <Routes>
-      <Route path="/" element={<AppLayout/>}>
-      <Route index element={<HomePage/>} />
-      <Route path="/" element={<DetailPage/>} />
-      <Route path="/" element={<ProfilePage/>} />
-
-
-      </Route>
-    </Routes>
-    
-    
-    
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<AppLayout />}>
+          <Route index element={<HomePage />} />
+          <Route path="detail" element={<DetailPage />} />
+          <Route path="profile" element={<ProfilePage />} />
+        </Route>
+      </Routes>
     </BrowserRouter>
   )
 }
