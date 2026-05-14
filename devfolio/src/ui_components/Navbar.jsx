@@ -4,9 +4,9 @@ import ResponsiveNavBar from "./ResponsiveNavbar";
 import { Link, NavLink } from "react-router-dom";
 import { useState } from "react";
 
-const NavBar = ({ darkMode, handleDarkMode }) => {
-  const [showNavBar, setShowNavBar] = useState(localStorage.getItem("dark") === "true");
-
+const NavBar = ({darkMode, handleDarkMode}) => {
+  const [showNavBar, setShowNavBar] = useState(false);
+  
   return (
     <>
       <nav className="max-container padding-x py-6 flex justify-between items-center  gap-6 sticky top-0 z-10 bg-[#141624] dark:bg-[#FFFFFF]">
@@ -24,8 +24,12 @@ const NavBar = ({ darkMode, handleDarkMode }) => {
           <li className="font-semibold">Create post</li>
         </ul>
 
-        <Switch onCheckedChange={handleDarkMode} checked={darkMode} />
-        <FaHamburger className="text-2xl cursor-pointer hidden max-md:block dark:text-[#141624]" onClick={() => setShowNavBar(curr => !curr)} />
+        <Switch onCheckedChange={handleDarkMode} checked={darkMode} />        
+        
+        
+        <FaHamburger 
+        className="text-2xl cursor-pointer hidden max-md:block dark:text-[#141624]"
+        onClick={() => setShowNavBar(curr => !curr)} />
       </nav>
 
       {showNavBar && <ResponsiveNavBar />}

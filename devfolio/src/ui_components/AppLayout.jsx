@@ -1,33 +1,34 @@
 import { Outlet } from "react-router-dom";
 import Footer from "./Footer";
 import NavBar from "./NavBar";
-import { useState,useEffect } from "react";
-
+import { useState, useEffect } from "react";
 
 const AppLayout = () => {
+  const [darkMode, setDarkMode] = useState(() => localStorage.getItem("dark") === "true");
 
-    useEffect(() => {
-    if(localStorage.getItem("dark") === "dark") {
-      localStorage.setItem("dark", "false");
-      handleDarkMode();
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
     }
-  }, []);
+  }, [darkMode]);
 
-  const [darkMode, setDarkMode] = useState(false)
-  
   const handleDarkMode = () => {
-    const newDarkMode = !darkMode
-    setDarkMode(newDarkMode)
-    localStorage.setItem("dark", newDarkMode ? "true" : "false");
-  }
+    setDarkMode((prev) => {
+      const newMode = !prev;
+      localStorage.setItem("dark", newMode ? "true" : "false");
+      return newMode;
+    });
+  };
 
   return (
-    <div className={darkMode ? "dark" : ""}>
-    <main className="w-full bg-[#ffffff] dark:bg-[#181A2A]">
-      <NavBar darkMode={darkMode}  handleDarkMode={handleDarkMode}/>
-      <Outlet />
-      <Footer />
-    </main>
+    <div>
+      <main className="w-full bg-[#ffffff] dark:bg-[#181A2A]">
+        <NavBar darkMode={darkMode} handleDarkMode={handleDarkMode} />
+        <Outlet />
+        <Footer />
+      </main>
     </div>
   );
 };
