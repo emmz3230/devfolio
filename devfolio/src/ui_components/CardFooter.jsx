@@ -3,8 +3,9 @@ import pic from "../images/pic.jpg"
 import { Base_URL } from '../api'
 
 const CardFooter = ({ blog }) => {
+  console.log("CardFooter blog object:", blog)
   return (
-    <div className="flex items-center gap=4 ">
+    <div className="flex items-center gap-4">
     <span className="flex items-center gap-2">
       <div className="w-[40px] h-[40px] rounded-full overflow-hidden">
         <img
@@ -14,13 +15,14 @@ const CardFooter = ({ blog }) => {
       </div>
 
       <small className="text-[#97989F] text-[12px] font-semibold">
-        {blog.author.firstname}    {blog.author.lastname}
+        {blog.author.first_name}    {blog.author.last_name}
       </small>
     </span>
 
     <small className="text-[#97989F] text-[12px] font-semibold ml-3">
-      {FormatDate(blog.published_at)}
+      {FormatDate(blog.published_date)}
     </small>
+    
   </div>
   )
 }
