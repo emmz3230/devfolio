@@ -1,23 +1,25 @@
+import { FormatDate } from "@/services/formatdate"
 import pic from "../images/pic.jpg"
+import { Base_URL } from '../api'
 
-const CardFooter = () => {
+const CardFooter = ({ blog }) => {
   return (
     <div className="flex items-center gap=4 ">
     <span className="flex items-center gap-2">
       <div className="w-[40px] h-[40px] rounded-full overflow-hidden">
         <img
-          src={pic}
+          src={`${Base_URL}${blog.author.profile_picture}`}
           className="c rounded-full w-full h-full object-cover"
         />
       </div>
 
       <small className="text-[#97989F] text-[12px] font-semibold">
-        John Doe
+        {blog.author.firstname}    {blog.author.lastname}
       </small>
     </span>
 
     <small className="text-[#97989F] text-[12px] font-semibold ml-3">
-      12 November, 2024
+      {FormatDate(blog.published_at)}
     </small>
   </div>
   )
