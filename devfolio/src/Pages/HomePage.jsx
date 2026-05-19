@@ -8,29 +8,43 @@ import PagePagination from '@/ui_components/PagePagination';
 
 const HomePage = () => {
 
-  const [Page, setPage] = useState(1);
+  const [page, setPage] = useState(1);
   const numOfBlogPerPages = 3;
 
   const { isLoading: isPending, isError, error, data} = useQuery({
-    queryKey: ["blogs", Page],
-    queryFn: () => getBlogs(Page),
+    queryKey: ["blogs", page],
+    queryFn: () => getBlogs(page),
     placeholderData: keepPreviousData
   })
 
   const blogs = data?.results || [];
   const numOfPages = Math.ceil(data?.count/numOfBlogPerPages)
-
-  console.log(blogs)
   
+
+
+  function handleSetPage(val) {
+    setPage(val);
+    
+  }
+  function increasePageValue() {
+    setPage((curr) => curr + 1);
+  }
+
+  function decreasePageValue() {
+    setPage((curr) => curr - 1);
+  }
+
   return (
     <>
       <Header />
      <BlogContainer  isPending= {isPending} blogs={blogs}/>
-     <PagePagination  increasePageValue={increasePageValue}
+     <PagePagination  
+        increasePageValue={increasePageValue}
         decreasePageValue={decreasePageValue}
         page={page}
         numOfPages={numOfPages}
-        handleSetPage={handleSetPage}/>
+        handleSetPage={handleSetPage}
+        />
     </>
   )
 }
