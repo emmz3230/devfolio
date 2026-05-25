@@ -1,7 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { registerUser } from "@/services/apiBlog";
-import SmallSpinner from "@/ui_components/SmallSpinner";
+// import SmallSpinner from "@/ui_components/SmallSpinner";
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -26,6 +26,7 @@ const SignupPage = () => {
 
     function onSubmit(data) {
         mutation.mutate(data);
+        // console.log(data)
     }
 
     return (
@@ -39,7 +40,30 @@ const SignupPage = () => {
                 <p>Create your account to get started!</p>
             </div>
 
-            <div>
+
+            <div className="flex flex-col gap-1">
+                <Label htmlFor="email" className="dark:text-[97989F]">
+                    email
+                </Label>
+                <Input
+                    type="text"
+                    id="email"
+                    placeholder="Enter email"
+                    {...register("email",
+                        {
+                            required: "email is required",
+                            minLength: {
+                                value: 3,
+                                message: "email must be at least 3 characters",
+                            },
+                        })}
+                    className="border-2 border-[#141624] dark:border-[#3B3C4A] focus:outline-0 h-[40px] w-[300px]"
+                />
+                {errors?.email?.message && (<small className="text-red-700">{errors.email.message}</small>)}
+            </div>
+
+
+            <div className="flex flex-col gap-1">
                 <Label htmlFor="username" className="dark:text-[97989F]">
                     Username
                 </Label>
@@ -47,21 +71,20 @@ const SignupPage = () => {
                     type="text"
                     id="username"
                     placeholder="Enter username"
-                    {...register("username", {
-                        required: "Username is required",
-                        minLength: {
-                            value: 3,
-                            message: "Username must be at least 3 characters",
-                        },
-                    })}
+                    {...register("username",
+                        {
+                            required: "Username is required",
+                            minLength: {
+                                value: 3,
+                                message: "Username must be at least 3 characters",
+                            },
+                        })}
                     className="border-2 border-[#141624] dark:border-[#3B3C4A] focus:outline-0 h-[40px] w-[300px]"
                 />
-                {errors?.username?.message && (
-                    <small className="text-red-700">{errors.username.message}</small>
-                )}
+                {errors?.username?.message && (<small className="text-red-700">{errors.username.message}</small>)}
             </div>
 
-            <div>
+            <div className="flex flex-col gap-1">
                 <Label htmlFor="first_name">First Name</Label>
                 <Input
                     type="text"
@@ -81,7 +104,7 @@ const SignupPage = () => {
                 )}
             </div>
 
-            <div>
+            <div className="flex flex-col gap-1">
                 <Label htmlFor="last_name">Last Name</Label>
                 <Input
                     type="text"
@@ -101,7 +124,7 @@ const SignupPage = () => {
                 )}
             </div>
 
-            <div>
+            <div className="flex flex-col gap-1">
                 <Label htmlFor="password">Password</Label>
                 <Input
                     type="password"
@@ -121,8 +144,7 @@ const SignupPage = () => {
                 )}
             </div>
 
-            <div>
-                <Label htmlFor="confirmPassword">Confirm Password</Label>
+            <div className="flex flex-col gap-1">                <Label htmlFor="confirmPassword">Confirm Password</Label>
                 <Input
                     type="password"
                     id="confirmPassword"
@@ -146,7 +168,7 @@ const SignupPage = () => {
 
             <div className="w-full flex items-center justify-center flex-col my-4">
                 <button className="bg-[#4B6BFB] text-white w-full py-3 px-2 rounded-md flex items-center justify-center gap-2">
-                    {mutation.isPending ? (
+                    {/* {mutation.isPending ? (
                         <>
                             {" "}
                             <SmallSpinner />{" "}
@@ -154,7 +176,8 @@ const SignupPage = () => {
                         </>
                     ) : (
                         <small className="text-[16px]">Signup</small>
-                    )}
+                    )} */}
+                    <small className="text-[16px]">Signup</small>
                 </button>
                 <p className="text-[14px]">
                     Already have an account? Sign in
