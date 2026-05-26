@@ -19,14 +19,21 @@ const NavBar = ({ darkMode, handleDarkMode }) => {
           </li> */}
 
           <li>Logout</li>
-          <li>Login</li>
           <li>
-            <NavLink to="/signup"
-              className={({ isActive }) => isActive ? "active" : " "} >
+            <NavLink to="/signin" className={({ isActive }) => isActive ? "active" : " "} >
+              Login
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/signup" className={({ isActive }) => isActive ? "active" : " "} >
               Register
             </NavLink>
           </li>
-          <li className="font-semibold">Create post</li>
+          <li className="font-semibold">
+            <NavLink to="/create"
+              className={({ isActive }) => isActive ? "active" : " "} >
+              Create post
+            </NavLink></li>
         </ul>
 
         <Switch onCheckedChange={handleDarkMode} checked={darkMode} />
