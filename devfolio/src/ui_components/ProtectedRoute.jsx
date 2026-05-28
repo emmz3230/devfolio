@@ -7,41 +7,37 @@ import api from "@/api"
 const ProtectedRoute = ({ children }) => {
 
     const [isAuthorized, setIsAuthorized] = useState(null)
-    // const location = useLocation()
+    const location = useLocation()
 
-    // useEffect(function(){
-    //     authorize().catch(() => setIsAuthorized(false))
-    // }, [])
-
-
-
-    // async function refreshToken(){
-
-    //     const refresh = localStorage.getItem("refresh")
-
-    //     try{
-
-    //         const response = await api.post("token_refresh/", {refresh})
-    //         if(response.status === 200){
-    //             localStorage.setItem("access", response.data.access)
-    //             setIsAuthorized(true)
-    //         }
-
-    //         else{
-    //             setIsAuthorized(false)
-    //         }
-
-    //     }
-
-
-    //     catch(err){
-    //         setIsAuthorized(false)
-    //         console.log(err)
-    //     }
+    useEffect(function () {
+        authorize().catch(() => setIsAuthorized(false))
+    }, [])
 
 
 
-    // }
+    async function refreshToken() {
+
+        const refresh = localStorage.getItem("refresh")
+
+        try {
+
+            const response = await api.post("token_refresh/", { refresh })
+            if (response.status === 200) {
+                localStorage.setItem("access", response.data.access)
+                setIsAuthorized(true)
+            }
+
+            else {
+                setIsAuthorized(false)
+            }
+
+        }
+
+        catch (err) {
+            setIsAuthorized(false)
+            console.log(err)
+        }
+    }
 
 
     async function authorize() {
@@ -69,9 +65,9 @@ const ProtectedRoute = ({ children }) => {
     }
 
 
-    // if(isAuthorized === null){
-    //     return <Spinner />
-    // }
+    if (isAuthorized === null) {
+        return <Spinner />
+    }
 
     return (
         <>

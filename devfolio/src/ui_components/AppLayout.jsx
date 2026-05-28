@@ -5,7 +5,7 @@ import Footer from "./Footer";
 import NavBar from "./NavBar";
 import { useState, useEffect } from "react";
 
-const AppLayout = () => {
+const AppLayout = ({ isAuthenticated, username, setIsAuthenticated, setUsername }) => {
   const [darkMode, setDarkMode] = useState(() => localStorage.getItem("dark") === "true");
 
   useEffect(() => {
@@ -27,7 +27,11 @@ const AppLayout = () => {
   return (
     <div>
       <main className="w-full bg-[#ffffff] dark:bg-[#181A2A]">
-        <NavBar darkMode={darkMode} handleDarkMode={handleDarkMode} />
+        <NavBar darkMode={darkMode}
+          handleDarkMode={handleDarkMode}
+          isAuthenticated={isAuthenticated}
+          username={username} setIsAuthenticated={setIsAuthenticated}
+          setUsername={setUsername} />
         <ToastContainer />
         <Outlet />
         <Footer />

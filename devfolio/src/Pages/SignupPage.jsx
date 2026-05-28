@@ -45,6 +45,7 @@ const SignupPage = () => {
                 <Label htmlFor="email" className="dark:text-[97989F]">
                     email
                 </Label>
+                {errors?.email?.message && (<small className="text-red-700">{errors.email.message}</small>)}
                 <Input
                     type="text"
                     id="email"
@@ -59,7 +60,6 @@ const SignupPage = () => {
                         })}
                     className="border-2 border-[#141624] dark:border-[#3B3C4A] focus:outline-0 h-[40px] w-[300px]"
                 />
-                {errors?.email?.message && (<small className="text-red-700">{errors.email.message}</small>)}
             </div>
 
 
@@ -67,6 +67,7 @@ const SignupPage = () => {
                 <Label htmlFor="username" className="dark:text-[97989F]">
                     Username
                 </Label>
+                {errors?.username?.message && (<small className="text-red-700">{errors.username.message}</small>)}
                 <Input
                     type="text"
                     id="username"
@@ -81,11 +82,13 @@ const SignupPage = () => {
                         })}
                     className="border-2 border-[#141624] dark:border-[#3B3C4A] focus:outline-0 h-[40px] w-[300px]"
                 />
-                {errors?.username?.message && (<small className="text-red-700">{errors.username.message}</small>)}
             </div>
 
             <div className="flex flex-col gap-1">
                 <Label htmlFor="first_name">First Name</Label>
+                {errors?.first_name?.message && (
+                    <small className="text-red-700">{errors.first_name.message}</small>
+                )}
                 <Input
                     type="text"
                     id="first_name"
@@ -99,13 +102,13 @@ const SignupPage = () => {
                     })}
                     className="border-2 border-[#141624] dark:border-[#3B3C4A] focus:outline-0 h-[40px] w-[300px]"
                 />
-                {errors?.first_name?.message && (
-                    <small className="text-red-700">{errors.first_name.message}</small>
-                )}
             </div>
 
             <div className="flex flex-col gap-1">
                 <Label htmlFor="last_name">Last Name</Label>
+                {errors?.last_name?.message && (
+                    <small className="text-red-700">{errors.last_name.message}</small>
+                )}
                 <Input
                     type="text"
                     id="last_name"
@@ -119,13 +122,13 @@ const SignupPage = () => {
                     })}
                     className="border-2 border-[#141624] dark:border-[#3B3C4A] focus:outline-0 h-[40px] w-[300px]"
                 />
-                {errors?.last_name?.message && (
-                    <small className="text-red-700">{errors.last_name.message}</small>
-                )}
             </div>
 
             <div className="flex flex-col gap-1">
                 <Label htmlFor="password">Password</Label>
+                {errors?.password?.message && (
+                    <small className="text-red-700">{errors.password.message}</small>
+                )}
                 <Input
                     type="password"
                     id="password"
@@ -139,12 +142,15 @@ const SignupPage = () => {
                     })}
                     className="border-2 border-[#141624] dark:border-[#3B3C4A] focus:outline-0 h-[40px] w-[300px]"
                 />
-                {errors?.password?.message && (
-                    <small className="text-red-700">{errors.password.message}</small>
-                )}
             </div>
 
-            <div className="flex flex-col gap-1">                <Label htmlFor="confirmPassword">Confirm Password</Label>
+            <div className="flex flex-col gap-1">
+                <Label htmlFor="confirmPassword">Confirm Password</Label>
+                {errors?.confirmPassword?.message && (
+                    <small className="text-red-700">
+                        {errors.confirmPassword.message}
+                    </small>
+                )}
                 <Input
                     type="password"
                     id="confirmPassword"
@@ -159,11 +165,6 @@ const SignupPage = () => {
                     })}
                     className="border-2 border-[#141624] dark:border-[#3B3C4A] focus:outline-0 h-[40px] w-[300px]"
                 />
-                {errors?.confirmPassword?.message && (
-                    <small className="text-red-700">
-                        {errors.confirmPassword.message}
-                    </small>
-                )}
             </div>
 
             <div className="w-full flex items-center justify-center flex-col my-4">

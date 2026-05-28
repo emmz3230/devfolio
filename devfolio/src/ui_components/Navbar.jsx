@@ -4,8 +4,20 @@ import ResponsiveNavBar from "./ResponsiveNavbar";
 import { Link, NavLink } from "react-router-dom";
 import { useState } from "react";
 
-const NavBar = ({ darkMode, handleDarkMode }) => {
+const NavBar = ({ darkMode,
+  handleDarkMode,
+  isAuthenticated,
+  username,
+  setIsAuthenticated,
+  setUsername }) => {
   const [showNavBar, setShowNavBar] = useState(false);
+
+  function logout() {
+    localStorage.removeItem("access");
+    localStorage.removeItem("refresh");
+    setIsAuthenticated(false);
+    setUsername(null);
+  }
 
   return (
     <>
@@ -14,21 +26,41 @@ const NavBar = ({ darkMode, handleDarkMode }) => {
           DevFolio
         </Link>
         <ul className="flex items-center  justify-end gap-9 text-[#3B3C4A] lg:flex-1 max-md:hidden dark:text-[#141624]">
-          {/* <li>
-          <NavLink to="/profile" className={({isActive}) => isActive ? "active" : " "} >Hi, Clinton</NavLink>
-          </li> */}
+          {isAuthenticated ? (
+            <>
+              <li>Hi, {username}</li>
+              <li onClick={logout} className="cursor-pointer">
+                Logout
+              </li>
+            </>
+          ) : (
+            <>
+              <li>
+                <NavLink
+                  to="/signin"
+                  className={({ isActive }) => (isActive ? "active" : "")}
+                >
+                  Login
+                </NavLink>
+              </li>
 
-          <li>Logout</li>
-          <li>
-            <NavLink to="/signin" className={({ isActive }) => isActive ? "active" : " "} >
-              Login
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/signup" className={({ isActive }) => isActive ? "active" : " "} >
-              Register
-            </NavLink>
-          </li>
+
+
+
+
+
+              <li>
+                <NavLink
+                  to="/signup"
+                  className={({ isActive }) => (isActive ? "active" : "")}
+                >
+                  Register
+                </NavLink>
+              </li>
+            </>
+          )}
+
+
           <li className="font-semibold">
             <NavLink to="/create"
               className={({ isActive }) => isActive ? "active" : " "} >
