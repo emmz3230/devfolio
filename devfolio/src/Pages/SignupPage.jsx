@@ -5,6 +5,19 @@ import SmallSpinner from "@/ui_components/SmallSpinner";
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import { useState } from "react";
+import { styles } from "@/ui_components/styles";
+import { CheckIcon, EyeOffIcon, EyeIcon, XIcon } from "@/ui_components/Icons";
+
+
+const RULES = [
+    { id: "lower", label: "At least one lowercase letter", test: (v) => /[a-z]/.test(v) },
+    { id: "min", label: "Minimum 8 characters", test: (v) => v.length >= 8 },
+    { id: "upper", label: "At least one uppercase letter", test: (v) => /[A-Z]/.test(v) },
+    { id: "num", label: "At least one number", test: (v) => /[0-9]/.test(v) },
+];
+
+
 
 const SignupPage = () => {
     const { register, handleSubmit, formState, reset, watch } = useForm();
@@ -28,6 +41,14 @@ const SignupPage = () => {
         mutation.mutate(data);
         // console.log(data)
     }
+
+    const [passwordCheck, setPasswordCheck] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const ruleResults = RULES.map((r) => ({ ...r, pass: r.test(passwordCheck) }));
+    const allRulesPass = ruleResults.every((r) => r.pass);
+
+
 
     return (
         <form
@@ -129,20 +150,34 @@ const SignupPage = () => {
                 {errors?.password?.message && (
                     <small className="text-red-700">{errors.password.message}</small>
                 )}
-                <Input
-                    type="password"
-                    id="password"
-                    placeholder="Enter password"
-                    {...register("password", {
-                        required: "Password is required",
-                        minLength: {
-                            value: 8,
-                            message: "Password must be at least 8 characters",
-                        },
-                    })}
-                    className="border-2 border-[#141624] dark:border-[#3B3C4A] focus:outline-0 h-[40px] w-[300px]"
-                />
+                <div className="relative w-full max-w-[300px]">
+                    <Input
+                        id="password"
+                        type={showPassword ? "text" : "password"}
+                        placeholder="Enter password"
+                        {...register("password", {
+                            required: "Password is required",
+                            minLength: {
+                                value: 8,
+                                message: "Password must be at least 8 characters",
+                            },
+                            onChange: (e) => setPasswordCheck(e.target.value)
+                        })}
+                        className="border-2 border-[#141624] dark:border-[#3B3C4A] focus:outline-0 h-[40px] w-full pr-10"
+                        value={passwordCheck}
+                        autoComplete="password"
+                    />
+                    <button
+                        type="button"
+                        onClick={() => setShowPassword((s) => !s)}
+                        style={styles.eyeBtn}
+                        aria-label={showPassword ? "Hide password" : "Show password"}
+                    >
+                        {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+                    </button>
+                </div>
             </div>
+
 
             <div className="flex flex-col gap-1">
                 <Label htmlFor="confirmPassword">Confirm Password</Label>
@@ -151,21 +186,45 @@ const SignupPage = () => {
                         {errors.confirmPassword.message}
                     </small>
                 )}
-                <Input
-                    type="password"
-                    id="confirmPassword"
-                    placeholder="Confirm password"
-                    {...register("confirmPassword", {
-                        required: "Password is required",
-                        minLength: {
-                            value: 8,
-                            message: "Password must be at least 8 characters",
-                        },
-                        validate: (value) => value === password || "Passwords do not match",
-                    })}
-                    className="border-2 border-[#141624] dark:border-[#3B3C4A] focus:outline-0 h-[40px] w-[300px]"
-                />
+                <div className="relative w-full max-w-[300px]">
+                    <Input
+                        type={showConfirmPassword ? "text" : "password"}
+                        id="confirmPassword"
+                        placeholder="Confirm password"
+                        {...register("confirmPassword", {
+                            required: "Password is required",
+                            minLength: {
+                                value: 8,
+                                message: "Password must be at least 8 characters",
+                            },
+                            validate: (value) => value === password || "Passwords do not match",
+                        })}
+                        className="border-2 border-[#141624] dark:border-[#3B3C4A] focus:outline-0 h-[40px] w-full pr-10"
+                    />
+                    <button
+                        type="button"
+                        onClick={() => setShowConfirmPassword((s) => !s)}
+                        style={styles.eyeBtn}
+                        aria-label={showConfirmPassword ? "Hide password" : "Show password"}
+                    >
+                        {showConfirmPassword ? <EyeOffIcon /> : <EyeIcon />}
+                    </button>
+                </div>
             </div>
+
+            <ul style={styles.ruleList} aria-label="Password requirements">
+                {ruleResults.map((r) => (
+                    <li key={r.id} style={styles.rule(r.pass)}>
+                        {r.pass ? <CheckIcon color="#1D9E75" /> : <XIcon />}
+                        <span>{r.label}</span>
+                    </li>
+                ))}
+            </ul>
+
+
+
+
+
 
             <div className="w-full flex items-center justify-center flex-col my-4">
                 <button className="bg-[#4B6BFB] text-white w-full py-3 px-2 rounded-md flex items-center justify-center gap-2">
@@ -191,4 +250,3 @@ const SignupPage = () => {
 export default SignupPage;
 
 
-// https://x.com/alexanderr_io/status/2058921071605088660

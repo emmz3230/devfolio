@@ -6,6 +6,9 @@ import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import SmallSpinner from "@/ui_components/SmallSpinner";
 import { getUsername, signin } from "@/services/apiBlog";
+import { useState } from "react";
+import { styles } from "@/ui_components/styles";
+import { EyeOffIcon, EyeIcon, XIcon } from "@/ui_components/Icons";
 
 
 const LoginPage = ({ setIsAuthenticated, setUsername }) => {
@@ -35,6 +38,17 @@ const LoginPage = ({ setIsAuthenticated, setUsername }) => {
         console.log(data);
         mutation.mutate(data);
     }
+
+
+
+    const [password, setPassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
+
+
+
+
+
+
 
     return (
         <form
@@ -70,14 +84,27 @@ const LoginPage = ({ setIsAuthenticated, setUsername }) => {
                 {errors?.password?.message && (
                     <small className="text-red-700">{errors.password.message}</small>
                 )}
-                <Input
-                    type="password"
-                    id="password"
-                    disabled={mutation.isPending}
-                    placeholder="Enter password"
-                    {...register("password", { required: "Password is required" })}
-                    className="border-2 border-[#141624] dark:border-[#3B3C4A] focus:outline-0 h-[40px]  w-[300px]"
-                />
+                <div className="relative w-full max-w-[300px]">
+                    <Input
+                        type={showPassword ? "text" : "password"}
+                        id="password"
+                        disabled={mutation.isPending}
+                        placeholder="Enter password"
+                        {...register("password", { required: "Password is required" })}
+                        className="border-2 border-[#141624] dark:border-[#3B3C4A] focus:outline-0 h-[40px] w-full pr-10"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        autoComplete="new-password"
+                    />
+                    <button
+                        type="button"
+                        onClick={() => setShowPassword((s) => !s)}
+                        style={styles.eyeBtn}
+                        aria-label={showPassword ? "Hide password" : "Show password"}
+                    >
+                        {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+                    </button>
+                </div>
             </div>
 
             <div className="w-full flex items-center justify-center flex-col my-4">
@@ -94,6 +121,9 @@ const LoginPage = ({ setIsAuthenticated, setUsername }) => {
                 </button>
                 <p className="text-[14px]">
                     Don't have an account? <Link to="/signup">signup</Link>
+                </p>
+                <p className="text-[14px]">
+                    <Link to="/reset-password">Reset password</Link>
                 </p>
             </div>
         </form>
