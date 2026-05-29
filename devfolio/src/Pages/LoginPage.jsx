@@ -84,7 +84,7 @@ const LoginPage = ({ setIsAuthenticated, setUsername }) => {
                 {errors?.password?.message && (
                     <small className="text-red-700">{errors.password.message}</small>
                 )}
-                <div className="relative w-full max-w-[300px]">
+                <div className="relative w-[300px]">
                     <Input
                         type={showPassword ? "text" : "password"}
                         id="password"
@@ -123,7 +123,7 @@ const LoginPage = ({ setIsAuthenticated, setUsername }) => {
                     Don't have an account? <Link to="/signup">signup</Link>
                 </p>
                 <p className="text-[14px]">
-                    <Link to="/reset-password">Reset password</Link>
+                    <Link to="/forgot-password">Forgot password?</Link>
                 </p>
             </div>
         </form>

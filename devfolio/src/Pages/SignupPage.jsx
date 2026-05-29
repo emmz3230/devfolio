@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import { useState } from "react";
 import { styles } from "@/ui_components/styles";
 import { CheckIcon, EyeOffIcon, EyeIcon, XIcon } from "@/ui_components/Icons";
+import { Link } from "react-router-dom";
 
 
 const RULES = [
@@ -150,7 +151,7 @@ const SignupPage = () => {
                 {errors?.password?.message && (
                     <small className="text-red-700">{errors.password.message}</small>
                 )}
-                <div className="relative w-full max-w-[300px]">
+                <div className="relative w-[300px]">
                     <Input
                         id="password"
                         type={showPassword ? "text" : "password"}
@@ -186,7 +187,7 @@ const SignupPage = () => {
                         {errors.confirmPassword.message}
                     </small>
                 )}
-                <div className="relative w-full max-w-[300px]">
+                <div className="relative w-[300px]">
                     <Input
                         type={showConfirmPassword ? "text" : "password"}
                         id="confirmPassword"
@@ -239,8 +240,7 @@ const SignupPage = () => {
                     )}
                 </button>
                 <p className="text-[14px]">
-                    Already have an account? Sign in
-                    {/* Already have an account? <Link to="/signin">Sign In</Link> */}
+                    Already have an account? <Link to="/signin">Sign In</Link>
                 </p>
             </div>
         </form>

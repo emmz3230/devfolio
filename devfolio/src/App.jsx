@@ -6,7 +6,8 @@ import DetailPage from "./Pages/DetailPage";
 import SignupPage from "./Pages/SignupPage";
 import CreatePostPage from "./Pages/CreatePostPage";
 import LoginPage from "./Pages/LoginPage";
-import ResetPassword from "./Pages/ResetPassword"
+import ResetPassword from "./Pages/ResetPassword";
+import ForgotPassword from "./Pages/ForgotPassword";
 import ProtectedRoute from "./ui_components/ProtectedRoute";
 import { useEffect, useState } from "react";
 import { getUsername } from "./services/apiBlog";
@@ -46,6 +47,7 @@ function App() {
           <Route path="create" element={<ProtectedRoute><CreatePostPage /></ProtectedRoute>} />
           <Route path="signin" element={<LoginPage setIsAuthenticated={setIsAuthenticated} setUsername={setUsername} />} />
           <Route path="reset-password" element={<ResetPassword />} />
+          <Route path="forgot-password" element={<ForgotPassword />} />
 
           {/* <Route path="profile" element={<ProfilePage />} /> */}
         </Route>

@@ -60,3 +60,23 @@ export async function getUsername() {
     throw new Error(err.message);
   }
 }
+
+export async function sendPasswordResetRequest(email) {
+  try {
+    const response = await api.post("password_reset_request/", { email });
+    return response.data;
+  } catch (err) {
+    const errorMessage = err.response?.data?.error || err.message || "Failed to send reset link.";
+    throw new Error(errorMessage);
+  }
+}
+
+export async function confirmPasswordReset({ uid, token, password }) {
+  try {
+    const response = await api.post("password_reset_confirm/", { uid, token, password });
+    return response.data;
+  } catch (err) {
+    const errorMessage = err.response?.data?.error || err.message || "Failed to reset password.";
+    throw new Error(errorMessage);
+  }
+}
