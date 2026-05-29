@@ -79,4 +79,14 @@ export async function confirmPasswordReset({ uid, token, password }) {
     const errorMessage = err.response?.data?.error || err.message || "Failed to reset password.";
     throw new Error(errorMessage);
   }
-}
+}
+
+export async function createPost(data) {
+  try {
+    const response = await api.post("create_blog/", data);
+    return response.data;
+  } catch (err) {
+    throw new Error(err.message);
+  }
+}
+
