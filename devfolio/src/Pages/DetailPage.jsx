@@ -1,17 +1,17 @@
 import Badge from "@/ui_components/Badge"
 import BlogWriter from "@/ui_components/BlogWriter"
 import banner from "../images/detailBanner.jpg"
-import { useParams } from "react-router-dom"
-import { useQuery } from "@tanstack/react-query"
 import Spinner from "@/ui_components/Spinner"
-import { getBlog } from "@/services/apiBlog"
 import { Base_URL } from "@/api"
 import { HiPencilAlt } from "react-icons/hi";
 import { MdDelete } from "react-icons/md";
 import Modal from "@/ui_components/Modal"
 import { useState } from "react"
 import CreatePostPage from "./CreatePostPage"
-
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useNavigate, useParams } from "react-router-dom";
+import { deleteBlog, getBlog } from "@/services/apiBlog";
+import { toast } from "react-toastify";
 
 
 
@@ -19,6 +19,9 @@ const DetailPage = ({ username, isAuthenticated }) => {
 
   const { slug } = useParams()
   const [showModal, setShowModal] = useState(false)
+
+  const navigate = useNavigate()
+
 
   function toggleModal() {
     setShowModal(curr => !curr)
@@ -36,6 +39,35 @@ const DetailPage = ({ username, isAuthenticated }) => {
     queryFn: () => getBlog(slug),
   })
 
+
+  const blogID = blog?.id
+
+  const deleteMutation = useMutation({
+    mutationFn: (id) => deleteBlog(id),
+    onSuccess: () => {
+      toast.success("Your post has been deleted successfully!")
+      navigate("/")
+    },
+
+    onError: (err) => {
+      console.log(err)
+      toast.error(err.message)
+    }
+  })
+
+  function handleDeleteBlog() {
+    const popUp = window.confirm("Are you sure you want to delete this post?")
+    if (!popUp) {
+      return;
+    }
+
+    deleteMutation.mutate(blogID)
+
+
+
+  }
+
+
   if (isPending) {
     return <Spinner />
   }
@@ -52,7 +84,7 @@ const DetailPage = ({ username, isAuthenticated }) => {
           {isAuthenticated && username === blog.author.username && (
             <span className="flex justify-between items-center gap-2">
               <HiPencilAlt onClick={toggleModal} className="dark:text-white text-3xl cursor-pointer" />
-              <MdDelete className="dark:text-white text-3xl cursor-pointer" />
+              <MdDelete onClick={handleDeleteBlog} className="dark:text-white text-3xl cursor-pointer" />
             </span>
           )}
         </div>
