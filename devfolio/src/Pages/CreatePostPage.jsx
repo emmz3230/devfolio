@@ -14,30 +14,45 @@ import { useForm, Controller } from "react-hook-form";
 import InputError from "@/ui_components/InputError";
 import SmallSpinner from "@/ui_components/SmallSpinner";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createPost } from "@/services/apiBlog";
+import { createBlog, updateBlog } from "@/services/apiBlog";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import SmallSpinnerText from "@/ui_components/SmallSpinnerText";
+import LoginPage from "./LoginPage";
 
-const CreatePostPage = () => {
 
-    const { register, handleSubmit, formState, control } = useForm();
+const CreatePostPage = ({ blog, isAuthenticated }) => {
+
+    const { register, handleSubmit, formState, control } = useForm({ defaultValues: blog ? blog : {} });
     const { errors } = formState;
 
     const queryClient = useQueryClient()
     const navigate = useNavigate()
 
-    const mutation = useMutation({
-        mutationFn: (data) => createPost(data),
+
+    const blogID = blog?.id;
+
+    const updateMutation = useMutation({
+        mutationFn: ({ data, id }) => updateBlog(data, id),
         onSuccess: () => {
-            toast.success("New post created successfully");
-            queryClient.invalidateQueries({
-                queryKey: ["blogs"],
-            });
-            navigate("/")
+            navigate("/");
+            toast.success("Your post has been updated successfully!");
+            console.log("Your post has been updated successfully!");
         },
+
         onError: (err) => {
             toast.error(err.message);
+            console.log("Error updating blog", err);
+        },
+    });
+
+
+    const mutation = useMutation({
+        mutationFn: (data) => createBlog(data),
+        onSuccess: () => {
+            toast.success("New post added successfully");
+            queryClient.invalidateQueries({ queryKey: ["blogs"] });
+            navigate("/");
         },
     });
 
@@ -46,20 +61,34 @@ const CreatePostPage = () => {
         formData.append("title", data.title)
         formData.append("content", data.content)
         formData.append("category", data.category)
-        if (data.featured_image) {
-            formData.append("featured_image", data.featured_image[0])
+        if (data.featured_image && data.featured_image[0]) {
+            if (data.featured_image[0] != "/") {
+                formData.append("featured_image", data.featured_image[0]);
+            }
         }
-        mutation.mutate(formData)
+        if (blog && blogID) {
+            updateMutation.mutate({ data: formData, id: blogID });
+        } else {
+            mutation.mutate(formData);
+        }
     }
+
+
+    if (isAuthenticated === false) {
+        return <LoginPage />;
+    }
+
 
     return (
         <form
             onSubmit={handleSubmit(onSubmit)}
-            className="md:px-16 px-8 py-6 flex flex-col mx-auto my-9 items-center gap-6 w-fit rounded-lg bg-[#FFFFFF] shadow-xl dark:text-white dark:bg-[#141624]"
+            className={`${blog && "h-{90%} overflow-auto"}  md:px-16 px-8 py-6 flex flex-col mx-auto my-9 items-center gap-6 w-fit rounded-lg bg-[#FFFFFF] shadow-xl dark:text-white dark:bg-[#141624]`}
         >
             <div className="flex flex-col gap-2 justify-center items-center mb-2">
-                <h3 className="font-semibold text-2xl">Create Post</h3>
-                <p>Create a new post and share your ideas.</p>
+                <h3 className="font-semibold text-2xl">  {blog ? "Update Post" : "Create Post"}</h3>
+                <p>{blog
+                    ? "Do you want to update your post?"
+                    : "Create a new post and share your ideas."}</p>
             </div>
 
             {/* Title */}
@@ -101,7 +130,7 @@ const CreatePostPage = () => {
                     control={control}
                     rules={{ required: "This category is required" }}
                     render={({ field }) => (
-                        <Select onValueChange={field.onChange} value={field.value}>
+                        <Select onValueChange={field.onChange} value={field.value} defaultValue={blog ? blog.category : ""}>
                             <SelectTrigger className="border-2 border-[#141624] dark:border-[#3B3C4A] focus:outline-0 h-[40px] w-full">
                                 <SelectValue placeholder="Select a category" />
                             </SelectTrigger>
@@ -127,20 +156,42 @@ const CreatePostPage = () => {
                 <Input
                     type="file"
                     id="featured_image"
-                    {...register("featured_image", { required: "Blog's featured image is required" })}
+                    {...register("featured_image", { required: blog ? false : "Blog's featured image is required", })}
                     className="border-2 border-[#141624] dark:border-[#3B3C4A] focus:outline-0 h-[40px] w-full"
                 />
                 {errors?.featured_image?.message && <InputError error={errors.featured_image.message} />}
             </div>
 
             <div className="w-full flex items-center justify-center flex-col my-4">
-                <button
-                    type="submit"
-                    disabled={mutation.isPending}
-                    className="bg-[#4B6BFB] text-white w-full py-3 px-2 rounded-md flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
-                >
-                    {mutation.isPending ? <><SmallSpinner /><SmallSpinnerText text="Creating Post..." /></> : <SmallSpinnerText text="Create Post" />}
-                </button>
+                {blog ? (
+                    <button
+                        disabled={updateMutation.isPending}
+                        className="bg-[#4B6BFB] text-white w-full py-3 px-2 rounded-md flex items-center justify-center gap-2"
+                    >
+                        {updateMutation.isPending ? (
+                            <>
+                                {" "}
+                                <SmallSpinner /> <SmallSpinnerText text="Updating post..." />{" "}
+                            </>
+                        ) : (
+                            <SmallSpinnerText text="Update post" />
+                        )}
+                    </button>
+                ) : (
+                    <button
+                        disabled={mutation.isPending}
+                        className="bg-[#4B6BFB] text-white w-full py-3 px-2 rounded-md flex items-center justify-center gap-2"
+                    >
+                        {mutation.isPending ? (
+                            <>
+                                {" "}
+                                <SmallSpinner /> <SmallSpinnerText text="Creating post..." />{" "}
+                            </>
+                        ) : (
+                            <SmallSpinnerText text="Create post" />
+                        )}
+                    </button>
+                )}
             </div>
         </form>
     );
