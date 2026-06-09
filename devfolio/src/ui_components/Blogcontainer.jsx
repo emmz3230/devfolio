@@ -1,16 +1,16 @@
 import BlogCard from "./BlogCard"
 import Spinner from "./Spinner"
 
-const BlogContainer = ({isPending, blogs}) => {
+const BlogContainer = ({ isPending, blogs = [], title = "🍔Latest Posts" }) => {
   const blogList = Array.isArray(blogs)
     ? blogs
     : Array.isArray(blogs?.results)
-    ? blogs.results
-    : Array.isArray(blogs?.blogs)
-    ? blogs.blogs
-    : Array.isArray(blogs?.data)
-    ? blogs.data
-    : []
+      ? blogs.results
+      : Array.isArray(blogs?.blogs)
+        ? blogs.blogs
+        : Array.isArray(blogs?.data)
+          ? blogs.data
+          : []
 
   if (isPending) {
     return <Spinner />
@@ -36,4 +36,3 @@ const BlogContainer = ({isPending, blogs}) => {
 }
 
 export default BlogContainer
-      

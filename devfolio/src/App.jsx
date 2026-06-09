@@ -12,6 +12,7 @@ import ProtectedRoute from "./ui_components/ProtectedRoute";
 import { useEffect, useState } from "react";
 import { getUsername } from "./services/apiBlog";
 import { useQuery } from "@tanstack/react-query";
+import ProfilePage from "./Pages/ProfilePage";
 
 
 function App() {
@@ -42,6 +43,7 @@ function App() {
           setUsername={setUsername}
           setIsAuthenticated={setIsAuthenticated} />}>
           <Route index element={<HomePage />} />
+          <Route path="profile/:username" element={<ProfilePage authUsername={username} />} />
           <Route path="blogs/:slug" element={<DetailPage username={username} isAuthenticated={isAuthenticated} />} />
           <Route path="signup" element={<SignupPage />} />
           <Route path="create" element={<ProtectedRoute><CreatePostPage /></ProtectedRoute>} />
@@ -49,7 +51,7 @@ function App() {
           <Route path="reset-password" element={<ResetPassword />} />
           <Route path="forgot-password" element={<ForgotPassword />} />
 
-          {/* <Route path="profile" element={<ProfilePage />} /> */}
+
         </Route>
       </Routes>
     </BrowserRouter>

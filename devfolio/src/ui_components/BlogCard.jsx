@@ -10,26 +10,26 @@ import { Base_URL } from '../api'
 const BlogCard = ({ blog }) => {
   return (
     <div className="px-3 py-3 rounded-md w-[300px] h-auto flex flex-col gap-4 dark:border-gray-800 border shadow-lg">
-    <div className="w-full h-[200px] border rounded-md overflow-hidden">
-      <img
-        src={`${Base_URL}${blog.featured_image}`}
-        className="w-full h-full object-cover rounded-lg"
-      />
-    </div>
+      <div className="w-full h-[200px] border rounded-md overflow-hidden">
+        <img
+          src={`${Base_URL}${blog.featured_image}`}
+          className="w-full h-full object-cover rounded-lg"
+        />
+      </div>
 
       <Badge blog={blog} />
 
       <Link to={`/blogs/${blog.slug}`}>
-       <h3 className="font-semibold  leading-normal text-[#181A2A] mb-0 dark:text-[#141624]">
-        {blog.title}
-      </h3>
-      
-      </Link>
-    
-     
+        <h3 className="font-semibold  leading-normal text-[#181A2A] mb-0 dark:text-[#141624]">
+          {blog.title}
+        </h3>
 
-    <CardFooter  blog={blog}/>
-  </div>
+      </Link>
+
+
+
+      <CardFooter blog={blog} />
+    </div>
   )
 }
 

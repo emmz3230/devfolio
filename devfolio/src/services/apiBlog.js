@@ -120,3 +120,30 @@ export async function deleteBlog(id) {
     throw new Error(err.message)
   }
 }
+
+export async function getUserINfo(username) {
+  try {
+    const response = await api.get(`get_userinfo/${username}/`)
+    return response.data
+  }
+
+  catch (err) {
+    throw new Error(err.message)
+  }
+}
+
+export async function updateProfile(data) {
+  try {
+    const response = await api.put(`update_user/`, data);
+    return response.data;
+  } catch (err) {
+    console.log(err)
+    if (err.response) {
+      throw new Error(
+        err?.response?.data.username[0] || "Failed to update profile"
+      );
+    }
+
+    throw new Error(err.message);
+  }
+}
