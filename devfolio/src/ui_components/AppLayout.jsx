@@ -2,7 +2,7 @@ import { Outlet } from "react-router-dom";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Footer from "./Footer";
-import NavBar from "./NavBar.jsx";
+import NavBar from "./NavBar";
 import { useState, useEffect } from "react";
 
 const AppLayout = ({ isAuthenticated, username, setIsAuthenticated, setUsername }) => {

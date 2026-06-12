@@ -1,4 +1,4 @@
-import BlogContainer from "@/ui_components/BlogContainer";
+import BlogContainer from "@/ui_components/BlogContainer.jsx";
 import Hero from "@/ui_components/Hero";
 import Spinner from "@/ui_components/Spinner";
 import { useQuery } from "@tanstack/react-query";
