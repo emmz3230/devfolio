@@ -14,6 +14,9 @@ import { getUsername } from "./services/apiBlog";
 import { useQuery } from "@tanstack/react-query";
 import ProfilePage from "./Pages/ProfilePage";
 import NotFoundPage from "./Pages/NotFoundPage";
+import AboutPage from "./Pages/AboutPage";
+import ArchivedPage from "./Pages/ArchivedPage";
+import ContactPage from "./Pages/ContactPage";
 
 function App() {
   const [username, setUsername] = useState(null);
@@ -45,6 +48,9 @@ function App() {
           setUsername={setUsername}
           setIsAuthenticated={setIsAuthenticated} />}>
           <Route index element={<HomePage />} />
+          <Route path="about" element={<AboutPage />} />
+          <Route path="archived" element={<ArchivedPage />} />
+          <Route path="contact" element={<ContactPage />} />
           <Route path="*" element={<NotFoundPage />} />
           <Route path="profile/:username" element={<ProfilePage authUsername={username} />} />
           <Route path="blogs/:slug" element={<DetailPage username={username} isAuthenticated={isAuthenticated} />} />
