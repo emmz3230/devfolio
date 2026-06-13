@@ -22,6 +22,8 @@ function App() {
   const { data } = useQuery({
     queryKey: ["username"],
     queryFn: getUsername,
+    enabled: !!localStorage.getItem("access"),
+    retry: false,
   });
 
   useEffect(
